@@ -1,0 +1,17 @@
+{
+    "require": {
+        "monolog/monolog": "1.0.*",
+        "smarty/smarty": "~3.1",
+        "naux/iplocation": "dev-master",
+        "symfony/routing":"2.8.4"
+    },
+        "autoload": {
+        "psr-4": {"Ainiku\\": "libs/"}
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
+    }
+}
