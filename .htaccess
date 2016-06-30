@@ -4,13 +4,6 @@ RewriteEngine On
 RewriteCond %{HTTP:Host} ^zhaokeli.com
 RewriteRule ^(.*) http://www.zhaokeli.com/$1 [L,R=301]
 
-RewriteCond %{QUERY_STRING} \=PHP[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} [NC]
-RewriteRule ^(.*)$ index.php?m=Home&c=Public&a=error404 [L]
-RewriteRule ^/?([a-zA-Z0-9]+)$ index.php?m=Home&c=Public&a=error404 [L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)\.(jpg|gif|png|bmp)$ /Public/Static/images/default.png [QSA,PT,L]
-#保护模板文件
-RewriteRule ^(.*)App\/(.*)\/View\/(.*)$ / [R=301,NC,L]
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f

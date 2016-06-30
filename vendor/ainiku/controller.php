@@ -15,18 +15,18 @@ abstract class Controller {
 		$smarty = new \Smarty;
 		//$smarty->left_delimiter = "{#";
 		//$smarty->right_delimiter = "#}";
-		$smarty->setTemplateDir(APP_PATH . '/views/' . MODULE . '/default/'); //设置模板目录
+		$smarty->setTemplateDir(APP_PATH . '/views/' . BIND_MODULE . '/' . DEFAULT_THEME . '/'); //设置模板目录
 		$smarty->setCompileDir(__SITE_ROOT__ . "/data/cache/templates_c/");
-		$smarty->setConfigDir(APP_PATH . '/views/' . MODULE . '/smarty_configs/');
+		$smarty->setConfigDir(APP_PATH . '/views/' . BIND_MODULE . '/smarty_configs/');
 		$smarty->setCacheDir(__SITE_ROOT__ . "/data/cache/smarty_cache/");
 
 		//$smarty->force_compile = true;
 		if (APP_DEBUG) {
-			$smarty->debugging      = true;
+			//$smarty->debugging      = true;
 			$smarty->caching        = false;
 			$smarty->cache_lifetime = 0;
 		} else {
-			$smarty->debugging      = false;
+			//$smarty->debugging      = false;
 			$smarty->caching        = true;
 			$smarty->cache_lifetime = 120;
 		}

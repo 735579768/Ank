@@ -21,6 +21,7 @@ class IndexController extends Controller {
 		// var_dump($this->view->getTemplateDir());
 		// var_dump($this->view);
 		//die();
+		var_dump(\ainiku\app::getConfig(''));
 		$this->display('test');
 	}
 }
