@@ -1,9 +1,7 @@
 <?php
-use Symfony\Component\Routing\Matcher\UrlMatcher;
-use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\RouteCollection;
+use NoahBuscher\Macaw\Macaw;
 
+$config = require_once __DIR__ . '/config.php';
 $smarty = new Smarty;
 //$smarty->left_delimiter = "{#";
 //$smarty->right_delimiter = "#}";
@@ -17,12 +15,29 @@ $smarty->debugging      = false;
 $smarty->caching        = false;
 $smarty->cache_lifetime = 120;
 
-$route  = new Route('/foo', array('controller' => 'MyController'));
-$routes = new RouteCollection();
-$routes->add('route_name', $route);
+Macaw::get('fuck', function () {
+	echo "成功！";
+});
 
-$context = new RequestContext('/');
+Macaw::get('(:all)', function ($fu) {
+	global $loader;
+	// echo '未匹配到路由<br>' . $fu;
+	$module     = ainiku\request::get('m');
+	$controller = ainiku\request::get('c');
+	$action     = ainiku\request::get('a');
 
-$matcher = new UrlMatcher($routes, $context);
+	$module or ($module = 'home');
+	$controller or ($controller = 'Index');
+	$action or ($action = 'index');
+	$loader->addPsr4('controller\\home\\', APP_PATH . '/controller/' . $module);
+	// activate the autoloader
+	$loader->register();
 
-$parameters = $matcher->match('/foo');
+	// to enable searching the include path (eg. for PEAR packages)
+	$loader->setUseIncludePath(true);
+	$modname = "controller\\home\\{$controller}Controller";
+	$mod     = new $modname();
+	$mod->$action();
+});
+
+Macaw::dispatch();
