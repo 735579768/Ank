@@ -1,13 +1,12 @@
 <?php
 namespace controller\home;
+use ainiku\Controller;
+
 /**
  *默认控制器
  */
-class IndexController {
+class IndexController extends Controller {
 
-	function __construct() {
-
-	}
 	public function index($value = '') {
 		echo 'home index;';
 		//判断来源设备
@@ -19,6 +18,9 @@ class IndexController {
 		} else {
 			echo 'is mobile';
 		}
-		$smarty->display('index.html');
+		// var_dump($this->view->getTemplateDir());
+		// var_dump($this->view);
+		//die();
+		$this->display('test');
 	}
 }

@@ -12,46 +12,66 @@ abstract class Controller {
 	protected $view = null;
 
 	function __construct() {
+		$smarty = new \Smarty;
+		//$smarty->left_delimiter = "{#";
+		//$smarty->right_delimiter = "#}";
+		$smarty->setTemplateDir(APP_PATH . '/views/' . MODULE . '/default/'); //设置模板目录
+		$smarty->setCompileDir(__SITE_ROOT__ . "/data/cache/templates_c/");
+		$smarty->setConfigDir(APP_PATH . '/views/' . MODULE . '/smarty_configs/');
+		$smarty->setCacheDir(__SITE_ROOT__ . "/data/cache/smarty_cache/");
+
+		//$smarty->force_compile = true;
+		if (APP_DEBUG) {
+			$smarty->debugging      = true;
+			$smarty->caching        = false;
+			$smarty->cache_lifetime = 0;
+		} else {
+			$smarty->debugging      = false;
+			$smarty->caching        = true;
+			$smarty->cache_lifetime = 120;
+		}
+		$this->view = $smarty;
 
 	}
 	/**
 	 * 模板显示 调用内置的模板引擎显示方法，
 	 */
-	protected function display($templateFile = '', $charset = '', $contentType = '', $content = '', $prefix = '') {
-		$this->view->display($templateFile, $charset, $contentType, $content, $prefix);
+	protected function display($templateFile = '', $prefix = '.html') {
+		$this->view->display($this->getTplFilePath($templateFile, $prefix));
 	}
 
 	/**
 	 * 输出内容文本可以包括Html 并支持内容解析
 	 */
-	protected function show($content, $charset = '', $contentType = '', $prefix = '') {
-		$this->view->display('', $charset, $contentType, $content, $prefix);
+	protected function show($content) {
+		$this->view->show($content);
 	}
 
 	/**
 	 *  获取输出页面内容
 	 */
-	protected function fetch($templateFile = '', $content = '', $prefix = '') {
-		return $this->view->fetch($templateFile, $content, $prefix);
+	protected function fetch($templateFile = '') {
+		return $this->view->fetch($this->getTplFilePath($templateFile, $prefix));
 	}
 
 	/**
-	 *  创建静态页面
+	 * 定位模板文件路径
+	 * @param  string $tplfile [description]
+	 * @return [type]          [description]
 	 */
-	protected function buildHtml($htmlfile = '', $htmlpath = '', $templateFile = '') {
-		$content  = $this->fetch($templateFile);
-		$htmlpath = !empty($htmlpath) ? $htmlpath : HTML_PATH;
-		$htmlfile = $htmlpath . $htmlfile . C('HTML_FILE_SUFFIX');
-		Storage::put($htmlfile, $content, 'html');
-		return $content;
-	}
-
-	/**
-	 * 模板主题设置
-	 */
-	protected function theme($theme) {
-		$this->view->theme($theme);
-		return $this;
+	private function getTplFilePath($templateFile = '', $prefix = '.html') {
+		$file_path = explode('/', $templateFile);
+		$tplFile   = '';
+		if (isset($file_path[1])) {
+			$tplFile = $this->view->getTemplateDir()[0] . $templateFile . $prefix;
+		} else {
+			$tplFile = $this->view->getTemplateDir()[0] . CONTROLLER . '/' . $templateFile . $prefix;
+		}
+		if (!file_exists($tplFile)) {
+			throw new \ainiku\Exception('模板文件不存在!:' . $tplFile, 1);
+		} else {
+			return strtolower($tplFile);
+		}
 	}
 
 	/**
@@ -79,9 +99,6 @@ abstract class Controller {
 	 * Ajax方式返回数据到客户端
 	 */
 	protected function ajaxReturn($data, $type = '', $json_option = 0) {
-		if (empty($type)) {
-			$type = C('DEFAULT_AJAX_RETURN');
-		}
 
 		switch (strtoupper($type)) {
 		case 'JSON':
@@ -92,18 +109,14 @@ abstract class Controller {
 			// 返回xml格式数据
 			header('Content-Type:text/xml; charset=utf-8');
 			exit(xml_encode($data));
-		case 'JSONP':
-			// 返回JSON数据格式到客户端 包含状态信息
-			header('Content-Type:application/json; charset=utf-8');
-			$handler = isset($_GET[C('VAR_JSONP_HANDLER')]) ? $_GET[C('VAR_JSONP_HANDLER')] : C('DEFAULT_JSONP_HANDLER');
-			exit($handler . '(' . json_encode($data, $json_option) . ');');
 		case 'EVAL':
 			// 返回可执行的js脚本
 			header('Content-Type:text/html; charset=utf-8');
 			exit($data);
 		default:
-			// 用于扩展其他返回格式数据
-			Hook::listen('ajax_return', $data);
+			// 返回JSON数据格式到客户端 包含状态信息
+			header('Content-Type:application/json; charset=utf-8');
+			exit(json_encode($data, $json_option));
 		}
 	}
 	/**
@@ -141,8 +154,6 @@ abstract class Controller {
 		}
 
 		$this->assign('status', $status); // 状态
-		//保证输出不受静态缓存影响
-		C('HTML_CACHE_ON', false);
 		if ($status) {
 			//发送成功信息
 			$this->assign('message', $message); // 提示信息
@@ -180,6 +191,7 @@ abstract class Controller {
 	 */
 	public function __destruct() {
 		// 执行后续操作
-		Hook::listen('action_end');
+		//Hook::listen('action_end');
 	}
+
 }
