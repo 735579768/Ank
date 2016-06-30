@@ -15,3 +15,4 @@ if (!$detect->isMobile()) {
 } else {
 	echo 'is mobile';
 }
+$smarty->display('index.html');

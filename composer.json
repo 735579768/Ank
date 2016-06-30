@@ -3,12 +3,12 @@
         "monolog/monolog": "1.0.*",
         "smarty/smarty": "~3.1",
         "naux/iplocation": "dev-master",
-        "symfony/routing": "2.8.4",
+        "symfony/routing": "3.1.1",
         "mobiledetect/mobiledetectlib": "^2.8"
     },
     "autoload": {
         "psr-4": {
-            "Ainiku\\": "libs/"
+            "ainiku\\": "vendor/ainiku"
         }
     },
     "repositories": {

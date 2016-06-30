@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e7d44a1fc3af2a1d284b5476de27dc84",
-    "content-hash": "1d174d0f321de700a630c4c5c8715b2c",
+    "hash": "dfe67d8aa541a58b503f7250c06058d6",
+    "content-hash": "2209908100e5b8a9a4070db5169e8313",
     "packages": [
         {
             "name": "mobiledetect/mobiledetectlib",
@@ -199,32 +199,32 @@
         },
         {
             "name": "symfony/routing",
-            "version": "v2.8.4",
+            "version": "v3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "d7d4a20cb55a90a06c0070d1a360e5ac606306ef"
+                "reference": "e52818e421659dd58a4eb3d439064fb3c2480999"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/symfony/routing/d7d4a20cb55a90a06c0070d1a360e5ac606306ef.zip",
-                "reference": "d7d4a20cb55a90a06c0070d1a360e5ac606306ef",
+                "url": "https://packagist.phpcomposer.com/files/symfony/routing/e52818e421659dd58a4eb3d439064fb3c2480999.zip",
+                "reference": "e52818e421659dd58a4eb3d439064fb3c2480999",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.9"
+                "php": ">=5.5.9"
             },
             "conflict": {
-                "symfony/config": "<2.7"
+                "symfony/config": "<2.8"
             },
             "require-dev": {
                 "doctrine/annotations": "~1.0",
                 "doctrine/common": "~2.2",
                 "psr/log": "~1.0",
-                "symfony/config": "~2.7|~3.0.0",
-                "symfony/expression-language": "~2.4|~3.0.0",
-                "symfony/http-foundation": "~2.3|~3.0.0",
-                "symfony/yaml": "~2.0,>=2.0.5|~3.0.0"
+                "symfony/config": "~2.8|~3.0",
+                "symfony/expression-language": "~2.8|~3.0",
+                "symfony/http-foundation": "~2.8|~3.0",
+                "symfony/yaml": "~2.8|~3.0"
             },
             "suggest": {
                 "doctrine/annotations": "For using the annotation loader",
@@ -237,7 +237,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.8-dev"
+                    "dev-master": "3.1-dev"
                 }
             },
             "autoload": {
@@ -270,7 +270,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2016-03-23 13:11:46"
+            "time": "2016-05-30 06:58:39"
         }
     ],
     "packages-dev": [],
