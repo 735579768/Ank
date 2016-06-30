@@ -4,7 +4,7 @@ $loader = require _SITE_ROOT_ . '/vendor/autoload.php';
 //添加新的自动加载命令空间
 //$loader->add('Acme\\Test\\', __DIR__);
 
-require './include/init.php';
+require './vendor/ainiku/ank.php';
 
 //判断来源设备
 $detect = new \Mobile_Detect();

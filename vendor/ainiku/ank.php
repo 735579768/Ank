@@ -1,5 +1,8 @@
 <?php
-//require _SITE_ROOT_ . '/vendor/smarty3/libs/Smarty.class.php';
+use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
 
 $smarty = new Smarty;
 //$smarty->left_delimiter = "{#";
@@ -13,3 +16,13 @@ $smarty->cache_dir    = _SITE_ROOT_ . "/data/cache/smarty_cache"; //缓存文件
 $smarty->debugging      = false;
 $smarty->caching        = false;
 $smarty->cache_lifetime = 120;
+
+$route  = new Route('/foo', array('controller' => 'MyController'));
+$routes = new RouteCollection();
+$routes->add('route_name', $route);
+
+$context = new RequestContext('/');
+
+$matcher = new UrlMatcher($routes, $context);
+
+$parameters = $matcher->match('/foo');
