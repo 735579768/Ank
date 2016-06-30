@@ -10,6 +10,7 @@ class app {
 	public function __construct() {
 	}
 	static public function start() {
+		global $loader;
 		// 设定错误和异常处理
 		register_shutdown_function('ainiku\app::fatalError');
 		set_error_handler('ainiku\app::appError');
@@ -19,7 +20,14 @@ class app {
 		$frame_config        = require_once __SITE_ROOT__ . '/vendor/ainiku/config.php';
 		$common_config       = require_once APP_PATH . '/config/common/config.php';
 		\ainiku\app::$config = array_merge($frame_config, $common_config);
-
+		//取访问的模块
+		$module = \ainiku\request::get('m');
+		if (!defined('BIND_MODULE')) {
+			$module or ($module = 'home');
+			define('BIND_MODULE', strtolower($module));
+		}
+		//自动加载空间
+		$loader->addPsr4('controller\\' . BIND_MODULE . '\\', APP_PATH . '/controller/' . BIND_MODULE);
 		defined('DEFAULT_THEME') or define('DEFAULT_THEME', \ainiku\app::getConfig('default_theme'));
 		Macaw::get('fuck', function ($a, $b) {
 			echo "成功！";
@@ -31,33 +39,29 @@ class app {
 
 		});
 
-		Macaw::get('(:any)', function ($request) {
-			global $loader;
-			// echo '未匹配到路由<br>' . $request;
-			$module     = \ainiku\request::get('m');
+		Macaw::get('(:all)', function ($request) {
+
+			var_dump($request);
 			$controller = \ainiku\request::get('c');
 			$action     = \ainiku\request::get('a');
+			\ainiku\app::runController(BIND_MODULE, $controller, $action, $param = []);
 
-			if (!defined('BIND_MODULE')) {
-				$module or ($module = 'home');
-				define('BIND_MODULE', strtolower($module));
-			}
-
-			$controller or ($controller = \ainiku\app::getConfig('default_controller'));
-			$action or ($action = \ainiku\app::getConfig('default_action'));
-			$loader->addPsr4('controller\\' . BIND_MODULE . '\\', APP_PATH . '/controller/' . BIND_MODULE);
-			define('CONTROLLER', ucwords($controller));
-			define('ACTION', $action);
-			$module_config       = require_once APP_PATH . '/config/' . BIND_MODULE . '/config.php';
-			\ainiku\app::$config = array_merge(\ainiku\app::$config, $module_config);
-			$modname             = "controller\\" . BIND_MODULE . "\\{$controller}Controller";
-			$mod                 = new $modname();
-			$mod->$action();
 		});
-		Macaw::error(function () {
-			echo '404 :: Not Found';
-		});
+		// Macaw::error(function () {
+		// 	echo '404 :: Not Found';
+		// });
 		Macaw::dispatch();
+	}
+	static public function runController($module = '', $controller = '', $action = '', $param = []) {
+		$controller or ($controller = \ainiku\app::getConfig('default_controller'));
+		$action or ($action = \ainiku\app::getConfig('default_action'));
+		define('CONTROLLER', ucwords($controller));
+		define('ACTION', $action);
+		$module_config       = require_once APP_PATH . '/config/' . BIND_MODULE . '/config.php';
+		\ainiku\app::$config = array_merge(\ainiku\app::$config, $module_config);
+		$modname             = "controller\\" . BIND_MODULE . "\\{$controller}Controller";
+		$mod                 = new $modname();
+		call_user_func_array([$mod, $action], $param);
 	}
 	/**
 	 * 返回应用加载过的配置
