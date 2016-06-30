@@ -16,19 +16,23 @@ class app {
 		set_error_handler('ainiku\app::appError');
 		set_exception_handler('ainiku\app::appException');
 
-		//加载框架配置和公共配置文件
-		$frame_config        = require_once __SITE_ROOT__ . '/vendor/ainiku/config.php';
-		$common_config       = require_once APP_PATH . '/config/common/config.php';
-		\ainiku\app::$config = array_merge($frame_config, $common_config);
 		//取访问的模块
 		$module = \ainiku\request::get('m');
 		if (!defined('BIND_MODULE')) {
 			$module or ($module = 'home');
 			define('BIND_MODULE', strtolower($module));
 		}
+
+		//加载框架配置和公共配置文件
+		$frame_config        = require_once __SITE_ROOT__ . '/vendor/ainiku/config.php';
+		$common_config       = require_once APP_PATH . '/config/common/config.php';
+		$module_config       = require_once APP_PATH . '/config/' . BIND_MODULE . '/config.php';
+		\ainiku\app::$config = array_merge($frame_config, $common_config, $module_config);
+
 		//自动加载空间
 		$loader->addPsr4('controller\\' . BIND_MODULE . '\\', APP_PATH . '/controller/' . BIND_MODULE);
 		defined('DEFAULT_THEME') or define('DEFAULT_THEME', \ainiku\app::getConfig('default_theme'));
+
 		Macaw::get('fuck', function ($a, $b) {
 			echo "成功！";
 			var_dump(Macaw::$routes);
@@ -57,10 +61,8 @@ class app {
 		$action or ($action = \ainiku\app::getConfig('default_action'));
 		define('CONTROLLER', ucwords($controller));
 		define('ACTION', $action);
-		$module_config       = require_once APP_PATH . '/config/' . BIND_MODULE . '/config.php';
-		\ainiku\app::$config = array_merge(\ainiku\app::$config, $module_config);
-		$modname             = "controller\\" . BIND_MODULE . "\\{$controller}Controller";
-		$mod                 = new $modname();
+		$modname = "controller\\" . BIND_MODULE . "\\{$controller}Controller";
+		$mod     = new $modname();
 		call_user_func_array([$mod, $action], $param);
 	}
 	/**
