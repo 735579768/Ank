@@ -7,8 +7,11 @@ $loader = require _SITE_ROOT_ . '/vendor/autoload.php';
 require './include/init.php';
 
 //判断来源设备
-$detect = new \MobileDetect();
+$detect = new \Mobile_Detect();
 if (!$detect->isMobile()) {
 	//pc端
 	//header('location:http://www.jd.com/');
+	echo 'is pic';
+} else {
+	echo 'is mobile';
 }
