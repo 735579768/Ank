@@ -22,7 +22,7 @@ class IndexController extends Controller {
 		// var_dump($this->view);
 		//die();
 		echo \ainiku\Cache::write('key', [1, 2, 3, 4, 5, 6, 7]);
-		//echo \ainiku\Cache::read('key');
+		echo \ainiku\Cache::read('key');
 		var_dump(\ainiku\app::getConfig(''));
 		$this->display('test');
 	}

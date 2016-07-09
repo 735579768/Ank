@@ -24,7 +24,7 @@ class app {
 		}
 
 		//加载框架配置和公共配置文件
-		$frame_config        = require_once __SITE_ROOT__ . '/vendor/ainiku/config.php';
+		$frame_config        = require_once __SITE_ROOT__ . '/vendor/ainiku/core/config.php';
 		$common_config       = require_once APP_PATH . '/config/common/config.php';
 		$module_config       = require_once APP_PATH . '/config/' . BIND_MODULE . '/config.php';
 		\ainiku\app::$config = array_merge($frame_config, $common_config, $module_config);
