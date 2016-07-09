@@ -21,9 +21,12 @@ class IndexController extends Controller {
 		// var_dump($this->view->getTemplateDir());
 		// var_dump($this->view);
 		//die();
+		//
 		echo \ainiku\Cache::write('key', [1, 2, 3, 4, 5, 6, 7]);
 		echo \ainiku\Cache::read('key');
-		var_dump(\ainiku\app::getConfig(''));
+
+		echo \ainiku\app::config('sys.key.val', 'aa');
+		var_dump(\ainiku\app::config(''));
 		$this->display('test');
 	}
 }

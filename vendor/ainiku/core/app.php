@@ -31,7 +31,7 @@ class app {
 
 		//自动加载空间
 		$loader->addPsr4('controller\\' . BIND_MODULE . '\\', APP_PATH . '/controller/' . BIND_MODULE);
-		defined('DEFAULT_THEME') or define('DEFAULT_THEME', \ainiku\app::getConfig('default_theme'));
+		defined('DEFAULT_THEME') or define('DEFAULT_THEME', \ainiku\app::config('default_theme'));
 
 		Macaw::get('fuck', function ($a, $b) {
 			echo "成功！";
@@ -47,7 +47,7 @@ class app {
 			var_dump($request);
 			$controller = '';
 			$action     = '';
-			$url_model  = \ainiku\app::getConfig('url_model');
+			$url_model  = \ainiku\app::config('url_model');
 			if ($url_model == 0) {
 				$controller = \ainiku\request::get('c');
 				$action     = \ainiku\request::get('a');
@@ -67,30 +67,62 @@ class app {
 		Macaw::dispatch();
 	}
 	static public function runController($module = '', $controller = '', $action = '', $param = []) {
-		$controller or ($controller = \ainiku\app::getConfig('default_controller'));
-		$action or ($action = \ainiku\app::getConfig('default_action'));
+		$controller or ($controller = \ainiku\app::config('default_controller'));
+		$action or ($action = \ainiku\app::config('default_action'));
 		define('CONTROLLER', ucwords($controller));
 		define('ACTION', $action);
 		$modname = "controller\\" . BIND_MODULE . "\\{$controller}Controller";
 		$mod     = new $modname();
 		call_user_func_array([$mod, $action], $param);
 	}
+	// /**
+	//  * 返回应用加载过的配置或设置配置值
+	//  * @param  string $key [description]
+	//  * @return [type]      [description]
+	//  */
+	// static public function getConfig($key = '') {
+	// 	$re = \ainiku\app::$config;
+	// 	if (!empty($key)) {
+	// 		$keyarr = explode('.', $key);
+	// 		foreach ($keyarr as $key => $value) {
+	// 			$re = $re[$value];
+	// 		}
+	// 	}
+	// 	return $re;
+
+	// }
+
 	/**
-	 * 返回应用加载过的配置
+	 * 动态取或设置应用配置
 	 * @param  string $key [description]
 	 * @return [type]      [description]
 	 */
-	static public function getConfig($key = '') {
-		$re = \ainiku\app::$config;
-		if (!empty($key)) {
-			$keyarr = explode('.', $key);
-			foreach ($keyarr as $key => $value) {
-				$re = $re[$value];
+	static public function config($key = '', $data = null) {
+		$key = strtolower($key);
+		if (is_null($data)) {
+			$re = \ainiku\app::$config;
+			if (!empty($key)) {
+				$keyarr = explode('.', $key);
+				foreach ($keyarr as $key => $value) {
+					$re = $re[$value];
+				}
 			}
+			return $re;
+		} else {
+			if (!strpos($key, '.')) {
+				\ainiku\app::$config[$key] = $data;
+			} else {
+				// 二维数组设置和获取支持
+				$key = explode('.', $key);
+				var_dump($key);
+
+				\ainiku\app::$config[$key[0]][$key[1]] = $data;
+			}
+			return true;
 		}
-		return $re;
 
 	}
+
 	/**
 	 * 自定义异常处理
 	 * @access public
