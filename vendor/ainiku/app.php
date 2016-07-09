@@ -44,10 +44,20 @@ class app {
 		});
 
 		Macaw::get('(:all)', function ($request) {
-
 			var_dump($request);
-			$controller = \ainiku\request::get('c');
-			$action     = \ainiku\request::get('a');
+			$controller = '';
+			$action     = '';
+			$url_model  = \ainiku\app::getConfig('url_model');
+			if ($url_model == 0) {
+				$controller = \ainiku\request::get('c');
+				$action     = \ainiku\request::get('a');
+			} else if ($url_model == 1) {
+				$reurl      = explode('/', $request);
+				$controller = $reurl[0];
+				$action     = isset($reurl[1]) ? $reurl[1] : '';
+			}
+			$controller = ucfirst($controller);
+
 			\ainiku\app::runController(BIND_MODULE, $controller, $action, $param = []);
 
 		});

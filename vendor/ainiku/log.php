@@ -10,7 +10,7 @@ class Log {
 	public function getInstance() {
 		if (!\ainiku\Log::$log_instance) {
 			$log       = new Logger('Ainiku');
-			$file_path = DATA_PATH . '/cache/' . MODULE . '/logs/' . date('y-m-d') . '.log';
+			$file_path = DATA_PATH . '/cache/' . BIND_MODULE . '/logs/' . date('y-m-d') . '.log';
 			if (!file_exists($file_path)) {
 				mkdir(dirname($file_path), 0777, true);
 				file_put_contents(file_path, '');
