@@ -236,3 +236,6 @@ class app {
 		exit;
 	}
 }
+
+// 设置控制器别名 便于升级
+class_alias('ainiku\Controller', 'ank\Controller');
