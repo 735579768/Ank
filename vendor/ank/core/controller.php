@@ -16,9 +16,9 @@ abstract class Controller {
 		//$smarty->left_delimiter = "{#";
 		//$smarty->right_delimiter = "#}";
 		$smarty->setTemplateDir(APP_PATH . '/views/' . BIND_MODULE . '/' . DEFAULT_THEME . '/'); //设置模板目录
-		$smarty->setCompileDir(__SITE_ROOT__ . '/data/cache/' . BIND_MODULE . '/templates_c/');
+		$smarty->setCompileDir(SITE_ROOT . '/data/cache/' . BIND_MODULE . '/templates_c/');
 		$smarty->setConfigDir(APP_PATH . '/views/' . BIND_MODULE . '/smarty_configs/');
-		$smarty->setCacheDir(__SITE_ROOT__ . '/data/cache/' . BIND_MODULE . '/smarty_cache/');
+		$smarty->setCacheDir(SITE_ROOT . '/data/cache/' . BIND_MODULE . '/smarty_cache/');
 
 		//$smarty->force_compile = true;
 		if (APP_DEBUG) {
