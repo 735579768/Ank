@@ -194,4 +194,26 @@ abstract class Controller {
 		//Hook::listen('action_end');
 	}
 
+	/**
+	 * 魔术方法 有不存在的操作的时候执行
+	 * @access public
+	 * @param string $method 方法名
+	 * @param array $args 参数
+	 * @return mixed
+	 */
+	public function __call($method, $args) {
+		if (0 === strcasecmp($method, ACTION)) {
+			if (method_exists($this, '_empty')) {
+				// 如果定义了_empty操作 则调用
+				$this->_empty($method, $args);
+			} else {
+				$msg = '错误的操作' . ':' . ACTION;
+				throw new \ank\Exception($msg, 0);
+			}
+		} else {
+			$msg = __CLASS__ . ':' . $method . '方法不存在';
+			throw new \ank\Exception($msg, 0);
+			return;
+		}
+	}
 }

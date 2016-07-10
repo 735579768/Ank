@@ -1,4 +1,4 @@
 <?php
-namespace ainiku;
+namespace ank;
 class Exception extends \Exception {
 }

@@ -3,17 +3,20 @@ namespace ank;
 /**
  * 测试类
  */
-class request {
-
+class Request {
+	private $scriptName = '';
+	private $requestUrl = '';
 	function __construct() {
 
 	}
 
-	static public function post($key = '') {
-		return empty($key) ? '' : (isset($_POST[$key]) ? $_POST[$key] : '');
+	public function post($key = '', $filter = '') {
+		$data = empty($key) ? '' : (isset($_POST[$key]) ? $_POST[$key] : '');
+		return function_exists($filter) ? $filter($data) : $data;
 	}
 
-	static public function get($key = '') {
-		return empty($key) ? '' : (isset($_GET[$key]) ? $_GET[$key] : '');
+	public function get($key = '', $filter = '') {
+		$data = empty($key) ? '' : (isset($_GET[$key]) ? $_GET[$key] : '');
+		return function_exists($filter) ? $filter($data) : $data;
 	}
 }

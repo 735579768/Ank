@@ -1,11 +1,11 @@
 <?php
 namespace ank;
-use NoahBuscher\Macaw\Macaw;
 
 /**
  * 应用初始化类
  */
 class App {
+	//应用配置
 	static public $config = [];
 	public function __construct() {
 	}
@@ -30,52 +30,61 @@ class App {
 		\ank\App::$config = array_merge($frame_config, $common_config, $module_config);
 
 		//自动加载空间
+		$autoload = array_merge(\ank\App::config('sys_auto_load'), \ank\App::config('auto_load'));
+		foreach ($autoload as $key => $value) {
+			$loader->addPsr4($key, $value);
+		}
 		$loader->addPsr4('controller\\' . BIND_MODULE . '\\', APP_PATH . '/controller/' . BIND_MODULE);
 		defined('DEFAULT_THEME') or define('DEFAULT_THEME', \ank\App::config('default_theme'));
 
-		Macaw::get('fuck', function ($a, $b) {
-			echo "成功！";
-			var_dump(Macaw::$routes);
-			var_dump(Macaw::$patterns);
-			var_dump(Macaw::$callbacks);
-			var_dump($a);
-			var_dump($b);
+		// Macaw::get('fuck', function ($a, $b) {
+		// 	// echo "成功！";
+		// 	// var_dump(Macaw::$routes);
+		// 	// var_dump(Macaw::$patterns);
+		// 	// var_dump(Macaw::$callbacks);
+		// 	// var_dump($a);
+		// 	// var_dump($b);
 
-		});
+		// });
+		$route = new \ank\Route();
+		// var_dump($route);
+		$route->dispatch();
 
-		Macaw::get('(:all)', function ($request) {
-			//输出url路径
-			// var_dump($request);
-			$controller = '';
-			$action     = '';
-			$url_model  = \ank\App::config('url_model');
-			if ($url_model == 0) {
-				$controller = \ank\request::get('c');
-				$action     = \ank\request::get('a');
-			} else if ($url_model == 1) {
-				$reurl      = explode('/', $request);
-				$controller = $reurl[0];
-				$action     = isset($reurl[1]) ? $reurl[1] : '';
-			}
-			$controller = ucfirst($controller);
+		// Macaw::get('(:all)', function ($request) {
 
-			\ank\App::runController(BIND_MODULE, $controller, $action, $param = []);
+		// var_dump($_SERVER);
+		//输出url路径
+		// var_dump($route);
+		// $controller = '';
+		// $action     = '';
+		// $url_model  = \ank\App::config('url_model');
+		// if ($url_model == 0) {
+		// 	$controller = \ank\request::get('c');
+		// 	$action     = \ank\request::get('a');
+		// } else if ($url_model == 1) {
+		// 	$reurl      = explode('/', $request);
+		// 	$controller = $reurl[0];
+		// 	$action     = isset($reurl[1]) ? $reurl[1] : '';
+		// }
+		// $controller = ucfirst($controller);
 
-		});
+		// \ank\App::runController(BIND_MODULE, $controller, $action, $param = []);
+
+		// });
 		// Macaw::error(function () {
 		// 	echo '404 :: Not Found';
 		// });
-		Macaw::dispatch();
+		// Macaw::dispatch();
 	}
-	static public function runController($module = '', $controller = '', $action = '', $param = []) {
-		$controller or ($controller = \ank\App::config('default_controller'));
-		$action or ($action = \ank\App::config('default_action'));
-		define('CONTROLLER', ucwords($controller));
-		define('ACTION', $action);
-		$modname = "controller\\" . BIND_MODULE . "\\{$controller}Controller";
-		$mod     = new $modname();
-		call_user_func_array([$mod, $action], $param);
-	}
+	// static public function runController($module = '', $controller = '', $action = '', $param = []) {
+	// 	$controller or ($controller = \ank\App::config('default_controller'));
+	// 	$action or ($action = \ank\App::config('default_action'));
+	// 	define('CONTROLLER', ucwords($controller));
+	// 	define('ACTION', $action);
+	// 	$modname = "controller\\" . BIND_MODULE . "\\{$controller}Controller";
+	// 	$mod     = new $modname();
+	// 	call_user_func_array([$mod, $action], $param);
+	// }
 	// /**
 	//  * 返回应用加载过的配置或设置配置值
 	//  * @param  string $key [description]
