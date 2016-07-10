@@ -1,5 +1,5 @@
 <?php
-namespace ainiku;
+namespace ank;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
@@ -8,8 +8,8 @@ class Log {
 	static public $log_instance = null;
 
 	public function getInstance() {
-		if (!\ainiku\Log::$log_instance) {
-			$log       = new Logger('Ainiku');
+		if (!\ank\Log::$log_instance) {
+			$log       = new Logger('ank');
 			$file_path = DATA_PATH . '/cache/' . BIND_MODULE . '/logs/' . date('y-m-d') . '.log';
 			if (!file_exists($file_path)) {
 				mkdir(dirname($file_path), 0777, true);
@@ -17,10 +17,10 @@ class Log {
 			}
 			$stream = new StreamHandler($file_path, Logger::DEBUG);
 			$log->pushHandler($stream);
-			\ainiku\Log::$log_instance = $log;
+			\ank\Log::$log_instance = $log;
 
 		}
-		return \ainiku\Log::$log_instance;
+		return \ank\Log::$log_instance;
 		// $log->addError('Bar');
 		// Create some handlers
 
@@ -39,20 +39,20 @@ class Log {
 	static public function write($str, $leval = 'warning') {
 		switch ($leval) {
 		case 'warning':
-			\ainiku\Log::getInstance()->addWarning($str);
+			\ank\Log::getInstance()->addWarning($str);
 			break;
 		case 'error':
-			\ainiku\Log::getInstance()->addError($str);
+			\ank\Log::getInstance()->addError($str);
 			break;
 		case 'debug':
-			\ainiku\Log::getInstance()->addDebug($str);
+			\ank\Log::getInstance()->addDebug($str);
 			break;
 		case 'alert':
-			\ainiku\Log::getInstance()->addAlert($str);
+			\ank\Log::getInstance()->addAlert($str);
 			break;
 
 		default:
-			\ainiku\Log::getInstance()->addInfo($str);
+			\ank\Log::getInstance()->addInfo($str);
 			break;
 		}
 

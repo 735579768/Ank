@@ -1,6 +1,6 @@
 <?php
 namespace controller\home;
-use ainiku\Controller;
+use ank\Controller;
 
 /**
  *默认控制器
@@ -22,11 +22,11 @@ class IndexController extends Controller {
 		// var_dump($this->view);
 		//die();
 		//
-		// echo \ainiku\Cache::write('key', [1, 2, 3, 4, 5, 6, 7]);
-		// echo \ainiku\Cache::read('key');
+		// echo \ank\Cache::write('key', [1, 2, 3, 4, 5, 6, 7]);
+		// echo \ank\Cache::read('key');
 
-		// echo \ainiku\app::config('sys.key.val', 'aa');
-		// var_dump(\ainiku\app::config(''));
+		// echo \ank\app::config('sys.key.val', 'aa');
+		var_dump(\ank\app::config(''));
 		$this->display('test');
 	}
 }

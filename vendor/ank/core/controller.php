@@ -1,5 +1,5 @@
 <?php
-namespace ainiku;
+namespace ank;
 /**
  *
  */
@@ -68,7 +68,7 @@ abstract class Controller {
 			$tplFile = $this->view->getTemplateDir()[0] . CONTROLLER . '/' . $templateFile . $prefix;
 		}
 		if (!file_exists($tplFile)) {
-			throw new \ainiku\Exception('模板文件不存在!:' . $tplFile, 1);
+			throw new \ank\Exception('模板文件不存在!:' . $tplFile, 1);
 		} else {
 			return strtolower($tplFile);
 		}

@@ -1,37 +1,37 @@
 <?php
-namespace ainiku;
+namespace ank;
 use NoahBuscher\Macaw\Macaw;
 
 /**
  * 应用初始化类
  */
-class app {
+class App {
 	static public $config = [];
 	public function __construct() {
 	}
 	static public function start() {
 		global $loader;
 		// 设定错误和异常处理
-		register_shutdown_function('ainiku\app::fatalError');
-		set_error_handler('ainiku\app::appError');
-		set_exception_handler('ainiku\app::appException');
+		register_shutdown_function('ank\App::fatalError');
+		set_error_handler('ank\App::appError');
+		set_exception_handler('ank\App::appException');
 
 		//取访问的模块
-		$module = \ainiku\request::get('m');
+		$module = \ank\request::get('m');
 		if (!defined('BIND_MODULE')) {
 			$module or ($module = 'home');
 			define('BIND_MODULE', strtolower($module));
 		}
 
 		//加载框架配置和公共配置文件
-		$frame_config        = require_once __SITE_ROOT__ . '/vendor/ainiku/core/config.php';
-		$common_config       = require_once APP_PATH . '/config/common/config.php';
-		$module_config       = require_once APP_PATH . '/config/' . BIND_MODULE . '/config.php';
-		\ainiku\app::$config = array_merge($frame_config, $common_config, $module_config);
+		$frame_config     = require_once __SITE_ROOT__ . '/vendor/ank/core/config.php';
+		$common_config    = require_once APP_PATH . '/config/common/config.php';
+		$module_config    = require_once APP_PATH . '/config/' . BIND_MODULE . '/config.php';
+		\ank\App::$config = array_merge($frame_config, $common_config, $module_config);
 
 		//自动加载空间
 		$loader->addPsr4('controller\\' . BIND_MODULE . '\\', APP_PATH . '/controller/' . BIND_MODULE);
-		defined('DEFAULT_THEME') or define('DEFAULT_THEME', \ainiku\app::config('default_theme'));
+		defined('DEFAULT_THEME') or define('DEFAULT_THEME', \ank\App::config('default_theme'));
 
 		Macaw::get('fuck', function ($a, $b) {
 			echo "成功！";
@@ -48,10 +48,10 @@ class app {
 			// var_dump($request);
 			$controller = '';
 			$action     = '';
-			$url_model  = \ainiku\app::config('url_model');
+			$url_model  = \ank\App::config('url_model');
 			if ($url_model == 0) {
-				$controller = \ainiku\request::get('c');
-				$action     = \ainiku\request::get('a');
+				$controller = \ank\request::get('c');
+				$action     = \ank\request::get('a');
 			} else if ($url_model == 1) {
 				$reurl      = explode('/', $request);
 				$controller = $reurl[0];
@@ -59,7 +59,7 @@ class app {
 			}
 			$controller = ucfirst($controller);
 
-			\ainiku\app::runController(BIND_MODULE, $controller, $action, $param = []);
+			\ank\App::runController(BIND_MODULE, $controller, $action, $param = []);
 
 		});
 		// Macaw::error(function () {
@@ -68,8 +68,8 @@ class app {
 		Macaw::dispatch();
 	}
 	static public function runController($module = '', $controller = '', $action = '', $param = []) {
-		$controller or ($controller = \ainiku\app::config('default_controller'));
-		$action or ($action = \ainiku\app::config('default_action'));
+		$controller or ($controller = \ank\App::config('default_controller'));
+		$action or ($action = \ank\App::config('default_action'));
 		define('CONTROLLER', ucwords($controller));
 		define('ACTION', $action);
 		$modname = "controller\\" . BIND_MODULE . "\\{$controller}Controller";
@@ -82,7 +82,7 @@ class app {
 	//  * @return [type]      [description]
 	//  */
 	// static public function getConfig($key = '') {
-	// 	$re = \ainiku\app::$config;
+	// 	$re = \ank\App::$config;
 	// 	if (!empty($key)) {
 	// 		$keyarr = explode('.', $key);
 	// 		foreach ($keyarr as $key => $value) {
@@ -101,7 +101,7 @@ class app {
 	static public function config($key = '', $data = null) {
 		$key = strtolower($key);
 		if (is_null($data)) {
-			$re = \ainiku\app::$config;
+			$re = \ank\App::$config;
 			if (!empty($key)) {
 				$keyarr = explode('.', $key);
 				foreach ($keyarr as $key => $value) {
@@ -111,13 +111,13 @@ class app {
 			return $re;
 		} else {
 			if (!strpos($key, '.')) {
-				\ainiku\app::$config[$key] = $data;
+				\ank\App::$config[$key] = $data;
 			} else {
 				// 二维数组设置和获取支持
 				$key = explode('.', $key);
 				var_dump($key);
 
-				\ainiku\app::$config[$key[0]][$key[1]] = $data;
+				\ank\App::$config[$key[0]][$key[1]] = $data;
 			}
 			return true;
 		}
@@ -202,7 +202,7 @@ class app {
 	 * @return void
 	 */
 	static public function halt($error) {
-		\ainiku\Log::write($error['message']);
+		\ank\Log::write($error['message']);
 		$e = array();
 		if (APP_DEBUG || IS_CLI) {
 			//调试模式下输出错误信息
@@ -232,11 +232,8 @@ class app {
 			}
 		}
 		// 包含异常页面模板
-		$exceptionFile = __SITE_ROOT__ . '/vendor/ainiku/tpl/ainiku_exception.tpl';
+		$exceptionFile = __SITE_ROOT__ . '/vendor/ank/tpl/ainiku_exception.tpl';
 		include $exceptionFile;
 		exit;
 	}
 }
-
-// 设置控制器别名 便于升级
-class_alias('ainiku\Controller', 'ank\Controller');

@@ -10,7 +10,7 @@
     },
     "autoload": {
         "psr-4": {
-            "ainiku\\": "vendor/ainiku/core"
+            "ank\\": "vendor/ank/core"
         }
     },
     "repositories": {

@@ -11,4 +11,4 @@ define('DATA_PATH', __SITE_ROOT__ . '/data');
 //包含自动加载类
 $loader = require __SITE_ROOT__ . '/vendor/autoload.php';
 //加载框架初始化文件
-require './vendor/ainiku/ank.php';
+require './vendor/ank/ank.php';

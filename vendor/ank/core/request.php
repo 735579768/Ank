@@ -1,5 +1,5 @@
 <?php
-namespace ainiku;
+namespace ank;
 /**
  * 测试类
  */
