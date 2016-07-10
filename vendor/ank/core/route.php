@@ -4,12 +4,12 @@ namespace ank;
  *
  */
 class Route {
-
-	private $scriptName  = '';
-	private $requestUrl  = '';
-	private $queryString = '';
-	private $controller  = '';
-	private $action      = '';
+	static public $_instance = null;
+	public $scriptName       = '';
+	public $requestUrl       = '';
+	public $queryString      = '';
+	private $controller      = '';
+	private $action          = '';
 
 	function __construct() {
 		$this->scriptName  = $_SERVER['SCRIPT_NAME'];
