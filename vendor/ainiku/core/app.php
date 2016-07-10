@@ -44,7 +44,8 @@ class app {
 		});
 
 		Macaw::get('(:all)', function ($request) {
-			var_dump($request);
+			//输出url路径
+			// var_dump($request);
 			$controller = '';
 			$action     = '';
 			$url_model  = \ainiku\app::config('url_model');

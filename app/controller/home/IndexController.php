@@ -8,7 +8,7 @@ use ainiku\Controller;
 class IndexController extends Controller {
 
 	public function index($value = '') {
-		echo 'home index;';
+		// echo 'home index;';
 		//判断来源设备
 		$detect = new \Mobile_Detect();
 		if (!$detect->isMobile()) {
@@ -22,11 +22,11 @@ class IndexController extends Controller {
 		// var_dump($this->view);
 		//die();
 		//
-		echo \ainiku\Cache::write('key', [1, 2, 3, 4, 5, 6, 7]);
-		echo \ainiku\Cache::read('key');
+		// echo \ainiku\Cache::write('key', [1, 2, 3, 4, 5, 6, 7]);
+		// echo \ainiku\Cache::read('key');
 
-		echo \ainiku\app::config('sys.key.val', 'aa');
-		var_dump(\ainiku\app::config(''));
+		// echo \ainiku\app::config('sys.key.val', 'aa');
+		// var_dump(\ainiku\app::config(''));
 		$this->display('test');
 	}
 }
