@@ -26,7 +26,7 @@ class IndexController extends Controller {
 		// echo \ank\Cache::read('key');
 
 		// echo \ank\app::config('sys.key.val', 'aa');
-		var_dump(\ank\app::config(''));
+		var_dump(\ank\App::config(''));
 		$this->display('test');
 	}
 }
