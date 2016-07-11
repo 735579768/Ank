@@ -5,6 +5,8 @@ namespace ank;
  * 应用初始化类
  */
 class App {
+	static public $route   = null;
+	static public $request = null;
 	//应用配置
 	static public $config = [];
 	public function __construct() {
@@ -15,13 +17,6 @@ class App {
 		register_shutdown_function('ank\App::fatalError');
 		set_error_handler('ank\App::appError');
 		set_exception_handler('ank\App::appException');
-
-		//取访问的模块
-		$module = \ank\request::get('m');
-		if (!defined('BIND_MODULE')) {
-			$module or ($module = 'home');
-			define('BIND_MODULE', strtolower($module));
-		}
 
 		//加载框架配置和公共配置文件
 		$frame_config     = require_once SITE_ROOT . '/vendor/ank/core/config.php';
@@ -46,9 +41,10 @@ class App {
 		// 	// var_dump($b);
 
 		// });
-		$route = new \ank\Route();
-		// var_dump($route);
-		$route->dispatch();
+		\ank\App::$route = new \ank\Route();
+		$request         = \ank\Request::getInstance();
+		var_dump($request);
+		\ank\App::$route->dispatch();
 
 		// Macaw::get('(:all)', function ($request) {
 
