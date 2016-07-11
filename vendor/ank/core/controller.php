@@ -147,7 +147,7 @@ abstract class Controller {
 		}
 
 		// 提示标题
-		$this->assign('msgTitle', $status ? L('_OPERATION_SUCCESS_') : L('_OPERATION_FAIL_'));
+		$this->assign('msgTitle', $status ? '操作成功' : '操作失败');
 		//如果设置了关闭窗口，则提示完毕后自动关闭窗口
 		if ($this->get('closeWin')) {
 			$this->assign('jumpUrl', 'javascript:window.close();');

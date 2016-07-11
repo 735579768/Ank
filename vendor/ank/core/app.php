@@ -24,8 +24,21 @@ class App {
 		$module_config = require_once APP_PATH . '/config/' . BIND_MODULE . '/config.php';
 		require_once APP_PATH . '/functions/common/functions.php';
 		require_once APP_PATH . '/functions/' . BIND_MODULE . '/functions.php';
+		require_once SITE_ROOT . '/vendor/ank/core/functions.php';
 		\ank\App::$config = array_merge($frame_config, $common_config, $module_config);
 
+		// 定义当前请求的系统常量
+		define('NOW_TIME', $_SERVER['REQUEST_TIME']);
+		define('REQUEST_METHOD', $_SERVER['REQUEST_METHOD']);
+		define('IS_GET', REQUEST_METHOD == 'GET' ? true : false);
+		define('IS_POST', REQUEST_METHOD == 'POST' ? true : false);
+		define('IS_PUT', REQUEST_METHOD == 'PUT' ? true : false);
+		define('IS_DELETE', REQUEST_METHOD == 'DELETE' ? true : false);
+
+		// 全局安全过滤
+		array_walk_recursive($_GET, 'ank_filter');
+		array_walk_recursive($_POST, 'ank_filter');
+		array_walk_recursive($_REQUEST, 'ank_filter');
 		//自动加载空间
 		$autoload = array_merge(\ank\App::config('sys_auto_load'), \ank\App::config('auto_load'));
 		foreach ($autoload as $key => $value) {
@@ -44,7 +57,7 @@ class App {
 
 		// });
 		\ank\App::$route = new \ank\Route();
-		$request         = \ank\Request::getInstance();
+		// $request         = \ank\Request::getInstance();
 		// var_dump($request);
 		\ank\App::$route->dispatch();
 
