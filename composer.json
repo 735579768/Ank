@@ -9,7 +9,8 @@
     },
     "autoload": {
         "psr-4": {
-            "ank\\": "vendor/ank/core"
+            "ank\\": "vendor/ank/core",
+            "ank\\extend\\": "vendor/ank/extend"
         }
     },
     "repositories": {

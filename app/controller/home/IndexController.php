@@ -29,4 +29,21 @@ class IndexController extends Controller {
 		var_dump(\ank\App::config(''));
 		$this->display('test');
 	}
+	public function verify() {
+		$conf = array(
+			'imageH'   => 50,
+			'imageW'   => 150,
+			'fontSize' => 20,
+			'bg'       => array(255, 255, 255),
+			'length'   => 4,
+			'useNoise' => false, // 是否添加杂点
+		);
+		$verify = new \ank\extend\verify($conf);
+		$verify->entry(1);
+	}
+
+	public function image() {
+		$img = new \ank\extend\Image();
+		var_dump($img);
+	}
 }

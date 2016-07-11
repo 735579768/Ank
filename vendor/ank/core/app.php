@@ -43,7 +43,7 @@ class App {
 		// });
 		\ank\App::$route = new \ank\Route();
 		$request         = \ank\Request::getInstance();
-		var_dump($request);
+		// var_dump($request);
 		\ank\App::$route->dispatch();
 
 		// Macaw::get('(:all)', function ($request) {
