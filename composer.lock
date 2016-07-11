@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "aef7f7f9d934eef48cc0b77bbfa89f3e",
-    "content-hash": "9c06a72f4513e3dc83aa23ab614de006",
+    "hash": "f371411d79f38965b57c316077cd769f",
+    "content-hash": "27f8d669dab7a25205ef167707b372d8",
     "packages": [
         {
             "name": "catfan/medoo",
@@ -230,44 +230,6 @@
             "time": "2011-10-24 09:39:02"
         },
         {
-            "name": "naux/iplocation",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/NauxLiu/IpLocation.git",
-                "reference": "637d1df00fe6edaf8bd636190986a20d6f381ac0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/NauxLiu/IpLocation/637d1df00fe6edaf8bd636190986a20d6f381ac0.zip",
-                "reference": "637d1df00fe6edaf8bd636190986a20d6f381ac0",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Naux\\IpLocation\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "NauxLiu",
-                    "email": "xuancoder@gmail.com",
-                    "homepage": "http://naux.me"
-                },
-                {
-                    "name": "joyphper",
-                    "homepage": "http://joyphper.net"
-                }
-            ],
-            "description": "基于纯真IP库的,查询IP归属地PHP库",
-            "time": "2014-11-21 16:14:45"
-        },
-        {
             "name": "noahbuscher/macaw",
             "version": "dev-master",
             "source": {
@@ -357,7 +319,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "naux/iplocation": 20,
         "noahbuscher/macaw": 20
     },
     "prefer-stable": false,
