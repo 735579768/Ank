@@ -19,9 +19,11 @@ class App {
 		set_exception_handler('ank\App::appException');
 
 		//加载框架配置和公共配置文件
-		$frame_config     = require_once SITE_ROOT . '/vendor/ank/core/config.php';
-		$common_config    = require_once APP_PATH . '/config/common/config.php';
-		$module_config    = require_once APP_PATH . '/config/' . BIND_MODULE . '/config.php';
+		$frame_config  = require_once SITE_ROOT . '/vendor/ank/core/config.php';
+		$common_config = require_once APP_PATH . '/config/common/config.php';
+		$module_config = require_once APP_PATH . '/config/' . BIND_MODULE . '/config.php';
+		require_once APP_PATH . '/functions/common/functions.php';
+		require_once APP_PATH . '/functions/' . BIND_MODULE . '/functions.php';
 		\ank\App::$config = array_merge($frame_config, $common_config, $module_config);
 
 		//自动加载空间
