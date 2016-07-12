@@ -8,6 +8,8 @@ use ank\Controller;
 class IndexController extends Controller {
 
 	public function index($value = '') {
+		var_dump(\ank\Db::getInstance());
+		var_dump(new \ank\Model());
 		// echo 'home index;';
 		//判断来源设备
 		$detect = new \Mobile_Detect();
