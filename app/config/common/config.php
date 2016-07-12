@@ -7,7 +7,7 @@ return [
 		'database_name' => 'oxisi',
 		'server'        => 'localhost',
 		'username'      => 'root',
-		'password'      => '123456',
+		'password'      => 'adminrootkl',
 		'charset'       => 'utf8',
 		'port'          => 3306,
 		'prefix'        => 'kl_',
