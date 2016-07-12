@@ -19,4 +19,31 @@ class Model {
 	protected function _initialize() {
 
 	}
+	public function select() {
+
+	}
+	public function add() {
+
+	}
+	public function save() {
+
+	}
+	public function delete() {
+
+	}
+	public function replace() {
+
+	}
+	public function get() {
+
+	}
+	public function has() {
+
+	}
+	public function count() {
+
+	}
+	public function query($sql = '') {
+
+	}
 }
